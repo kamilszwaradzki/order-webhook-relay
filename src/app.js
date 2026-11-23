@@ -1,5 +1,5 @@
 const express = require('express');
-const pool = require('./pool');
+const pool = require('./db/pool');
 
 const app = express();
 
