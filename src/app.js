@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('./db/pool');
+const webhooksRouter = require('./routes/webhooks');
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.get('/health', async (req, res) => {
         });
     }
 });
+
+app.use('/webhooks', webhooksRouter);
 
 module.exports = app;

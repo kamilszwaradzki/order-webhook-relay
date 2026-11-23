@@ -1,0 +1,10 @@
+{
+  "event_id": "evt_001",
+  "type": "order.created",
+  "data": {
+    "order_id": "ORD-1042",
+    "customer_email": "jan@example.com",
+    "total": "1299.00",
+    "currency": "PLN"
+  }
+}
