@@ -3,8 +3,8 @@ CREATE TABLE events (
     event_id        TEXT NOT NULL UNIQUE,          -- idempotencja
     type            TEXT NOT NULL,                 -- np. 'order.created'
     payload         JSONB NOT NULL,
-    status          TEXT NOT NULL DEFAULT 'pending'
-                    CHECK (status IN ('pending', 'sent', 'failed')),
+    status TEXT NOT NULL DEFAULT 'pending'
+        CHECK (status IN ('pending', 'sent', 'failed', 'skipped')),
     attempts        INT NOT NULL DEFAULT 0,
     next_attempt_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_error      TEXT,

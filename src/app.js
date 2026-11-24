@@ -24,4 +24,16 @@ app.get('/health', async (req, res) => {
 
 app.use('/webhooks', webhooksRouter);
 
+app.use((error, req, res, next) => {
+    console.error(error);
+
+    if (res.headersSent) {
+        return next(error);
+    }
+
+    return res.status(500).json({
+        error: 'internal server error',
+    });
+});
+
 module.exports = app;
