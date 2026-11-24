@@ -1,4 +1,3 @@
-
 const pool = require('../db/pool');
 const { dispatchEvent } = require('../services/dispatcher');
 

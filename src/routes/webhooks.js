@@ -12,7 +12,6 @@ router.post(
     async (req, res, next) => {
         let payload;
 
-        // 1. Parsowanie JSON dopiero po weryfikacji podpisu.
         try {
             payload = JSON.parse(req.body.toString('utf8'));
         } catch {
@@ -21,7 +20,6 @@ router.post(
             });
         }
 
-        // 2. Walidacja struktury i danych.
         const validation = orderEventSchema.safeParse(payload);
 
         if (!validation.success) {
@@ -34,7 +32,6 @@ router.post(
             });
         }
 
-        // 3. Przekazanie danych do logiki biznesowej.
         try {
             const result = await handleOrderCreated(payload, validation.data);
 
