@@ -1,14 +1,21 @@
 const dotenv = require('dotenv');
-
 dotenv.config();
 
-const requiredEnv = ['WEBHOOK_SECRET', 'DATABASE_URL'];
+const isTest = process.env.NODE_ENV === 'test';
+
+const requiredEnv = isTest
+  ? ['WEBHOOK_SECRET', 'DATABASE_URL_TEST']
+  : ['WEBHOOK_SECRET', 'DATABASE_URL'];
 
 for (const key of requiredEnv) {
     if (!process.env[key]) {
         throw new Error(`Missing required environment variable: ${key}`);
     }
 }
+
+const databaseUrl = isTest
+  ? process.env.DATABASE_URL_TEST
+  : process.env.DATABASE_URL;
 
 const vipThreshold = process.env.VIP_THRESHOLD ?? '1000.00';
 
@@ -72,7 +79,7 @@ if ( processingLeaseSeconds * 1000 <= dispatchTimeoutMs ) {
 }
 module.exports = {
     webhookSecret: process.env.WEBHOOK_SECRET,
-    databaseUrl: process.env.DATABASE_URL,
+    databaseUrl,
     port: Number(process.env.PORT) || 3000,
 
     webhookUrl,
