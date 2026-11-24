@@ -4,14 +4,19 @@ CREATE TABLE events (
     type            TEXT NOT NULL,                 -- np. 'order.created'
     payload         JSONB NOT NULL,
     status TEXT NOT NULL DEFAULT 'pending'
-        CHECK (status IN ('pending', 'sent', 'failed', 'skipped')),
+        CHECK (status IN ('pending', 'processing', 'sent', 'failed', 'skipped')),
     attempts        INT NOT NULL DEFAULT 0,
     next_attempt_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_error      TEXT,
     received_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
-    sent_at         TIMESTAMPTZ
+    sent_at         TIMESTAMPTZ,
+    processing_started_at TIMESTAMPTZ
 );
 CREATE INDEX idx_events_queue ON events (status, next_attempt_at);
+
+CREATE INDEX idx_events_processing
+    ON events (processing_started_at)
+    WHERE status = 'processing';
 
 CREATE TABLE orders (
     id              BIGSERIAL PRIMARY KEY,
