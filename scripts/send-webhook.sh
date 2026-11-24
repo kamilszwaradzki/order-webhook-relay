@@ -14,7 +14,7 @@ SIGNATURE=$(openssl dgst -sha256 \
   -binary "$PAYLOAD" | openssl base64 -A)
 
 curl -sS -i \
-    -X POST ${URL:-http://localhost:3000/webhooks/orders} \
+    -X POST "${URL:-http://localhost:3000/webhooks/orders}" \
     -H "Content-Type: application/json" \
     -H "X-Signature: $SIGNATURE" \
     --data-binary @"$PAYLOAD"
